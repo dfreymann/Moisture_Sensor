@@ -88,6 +88,8 @@
 
 // externalize access tokens
 #include <./ubidots.tokens>
+// externalize wifi tokens
+#include <./wifi.tokens> 
 
 // Note that the default I2C address for the Chirp is 0x20 (software adjustable)
 // and the default address for the MAX17043 chip is 0x36 (fixed)
@@ -192,9 +194,6 @@ uint8_t chirpSoftVersion = 0;
 
 // SETUP
 void setup() {
-
-    // One time use:
-    // WiFi.setCredentials("BijvoetJaldiExt","9412441646");
 
     // setup our watchdog pin FIRST, since this powers-on peripherals!
     // Note: recovery from SLEEP_MODE_DEEP always passes through SETUP,
