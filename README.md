@@ -8,13 +8,13 @@ Migration from chirp-i2c-revised to chirp-i2c-migrated in Particle Workbench dev
 
 This is a port of chirp-i2c-revised Particle project code (including all libraries) to start working with Particle Workench
 
-### This is the **README.txt**:
+### This is the old **README.txt**:
 
 > 6.15.18 
 > 
 > Current working code for the Chirp Water Sensor prototype. 
 
-### This is the **chirp sensor problem** doc:
+### This is the old **chirp sensor problem** doc:
 
 > Chirp sensor problem (evaluating 3.25.19):
 > 
