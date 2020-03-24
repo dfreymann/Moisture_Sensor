@@ -86,13 +86,8 @@
 #include "RunningAverage.h"                 // Moving Average
 #include "math.h"                           // For Some Reason...
 
-// Ubidots requires specific variable IDs for upload. NOT YET ASSIGNED
-#define VAR_WATERVALUE "5580c51376254266df8f232b"
-#define VAR_TEMPVALUE  "5580c52576254263765f65fe"
-#define VAR_VOLTAGE    "5710384e7625427a5f370dc9"
-#define VAR_BATTSOC    "571038797625427b3fa9da99"
-// Ubidots account:
-#define TOKEN "34WGjY1Q703dFW4eNQaJoDrBMKXHKF9EzWd7XiTbRvU0jcS59QxHnrEesMrX"
+// externalize access tokens
+#include <./ubidots.tokens>
 
 // Note that the default I2C address for the Chirp is 0x20 (software adjustable)
 // and the default address for the MAX17043 chip is 0x36 (fixed)

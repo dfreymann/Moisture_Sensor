@@ -2,7 +2,7 @@
 //       THIS IS A GENERATED FILE - DO NOT EDIT       //
 /******************************************************/
 
-#line 1 "/Users/freymann/Dropbox/Electronics/_CODE/ParticleWorkbench/Test1/src/chirp-i2c-revised.ino"
+#line 1 "/Users/freymann/Dropbox/Electronics/_CODE/ParticleWorkbench/chirp-i2c/src/chirp-i2c-revised.ino"
 // chirp-i2c-revised
 //
 // running on 'dmf-5-photon'
@@ -85,7 +85,7 @@
 #include "application.h"                    // Particle Default
 void setup();
 void loop();
-#line 81 "/Users/freymann/Dropbox/Electronics/_CODE/ParticleWorkbench/Test1/src/chirp-i2c-revised.ino"
+#line 81 "/Users/freymann/Dropbox/Electronics/_CODE/ParticleWorkbench/chirp-i2c/src/chirp-i2c-revised.ino"
 #include "I2CSoilMoistureSensor_Particle.h" // Chirp I2C code
 #include "do_DogLcd.h"                      // DOG LCD Display
 #include "SparkFunMAX17043.h"               // MAX17043 Battery gauge
@@ -94,11 +94,13 @@ void loop();
 #include "RunningAverage.h"                 // Moving Average
 #include "math.h"                           // For Some Reason...
 
+#include <./ubidots.tokens>
+
 // Ubidots requires specific variable IDs for upload. NOT YET ASSIGNED
-#define VAR_WATERVALUE "5580c51376254266df8f232b"
-#define VAR_TEMPVALUE  "5580c52576254263765f65fe"
-#define VAR_VOLTAGE    "5710384e7625427a5f370dc9"
-#define VAR_BATTSOC    "571038797625427b3fa9da99"
+//#define VAR_WATERVALUE "5580c51376254266df8f232b"
+//#define VAR_TEMPVALUE  "5580c52576254263765f65fe"
+//#define VAR_VOLTAGE    "5710384e7625427a5f370dc9"
+//#define VAR_BATTSOC    "571038797625427b3fa9da99"
 // Ubidots account:
 #define TOKEN "34WGjY1Q703dFW4eNQaJoDrBMKXHKF9EzWd7XiTbRvU0jcS59QxHnrEesMrX"
 
