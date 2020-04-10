@@ -87,9 +87,9 @@
 #include "math.h"                           // For Some Reason...
 
 // externalize access tokens
-#include <./ubidots.tokens>
+#include "ubidots_tokens.h"
 // externalize wifi tokens
-#include <./wifi.tokens> 
+#include "wifi_tokens.h"
 
 // Note that the default I2C address for the Chirp is 0x20 (software adjustable)
 // and the default address for the MAX17043 chip is 0x36 (fixed)
@@ -133,7 +133,8 @@ const double CtoF=1.8;
 // Set how long to sleep - note this is in SECONDS
 // note: can't update while in sleep mode. use safe mode, or wait until wake
 // 6.22.18 change to every 2 hours
-unsigned int howLongToSleep=6900;            // seconds; sleep for 1h 55m
+// unsigned int howLongToSleep=6900;         // seconds; sleep for 1h 55m
+unsigned int howLongToSleep=21300;           // 4.10.20 change to sleep 5h 55m
 // and here a timer to send the system to sleep after
 // wakeup (so this sets wake time - time in MILLISECONDS)
 unsigned int elapsedToSleep=300000;         // run and read for 5 minutes
