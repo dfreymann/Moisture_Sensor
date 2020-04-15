@@ -464,7 +464,7 @@ void loop() {
 #endif
 
         // Send the fractional 'wetness' to Ubidots...
-        request.path = "/api/v1.6/variables/"VAR_WATERVALUE"/values";
+        request.path = "/api/v1.6/variables/" VAR_WATERVALUE "/values";
         request.body = "{\"value\":" + String(waterValue) + "}";
         http.post(request, response, headers);
 
@@ -500,7 +500,7 @@ void loop() {
 #endif
 
         // Send the sensor temperature to Ubidots...
-        request.path = "/api/v1.6/variables/"VAR_TEMPVALUE"/values";
+        request.path = "/api/v1.6/variables/" VAR_TEMPVALUE "/values";
         request.body = "{\"value\":" + String(howHot) + "}";
         http.post(request, response, headers);
 
@@ -525,7 +525,7 @@ void loop() {
 #endif
 
         // Send the battery voltage to Ubidots...
-        request.path = "/api/v1.6/variables/"VAR_VOLTAGE"/values";
+        request.path = "/api/v1.6/variables/" VAR_VOLTAGE "/values";
         request.body = "{\"value\":" + String(cellVoltage) + "}";
         http.post(request, response, headers);
 
@@ -550,7 +550,7 @@ void loop() {
 #endif
 
         // Send the battery state of charge to Ubidots...
-        request.path = "/api/v1.6/variables/"VAR_BATTSOC"/values";
+        request.path = "/api/v1.6/variables/" VAR_BATTSOC "/values";
         request.body = "{\"value\":" + String(stateOfCharge) + "}";
         http.post(request, response, headers);
 
