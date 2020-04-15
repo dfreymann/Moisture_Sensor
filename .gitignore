@@ -1,4 +1,9 @@
 **/target
 **/.vscode
+
+# compiled files
+*.bin
+
+# access information
 ubidots.tokens
 wifi.tokens
