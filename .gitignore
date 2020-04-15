@@ -5,5 +5,5 @@
 *.bin
 
 # access information
-ubidots.tokens
-wifi.tokens
+*tokens.h
+
