@@ -3,6 +3,11 @@
 /******************************************************/
 
 #line 1 "/Users/freymann/Dropbox/Electronics/_CODE/ParticleWorkbench/chirp-i2c/src/chirp-i2c-revised.ino"
+// chirp i2c migration to Ubidots STEM and ubidots.h library
+// 7.14.20 
+// 7.16.20 - working fine. 
+// ToDo - revise code to eliminate http stuff; correct Particle publish statement
+
 // chirp-i2c-revised
 //
 // running on 'dmf-5-photon'
@@ -85,7 +90,7 @@
 #include "application.h"                    // Particle Default
 void setup();
 void loop();
-#line 81 "/Users/freymann/Dropbox/Electronics/_CODE/ParticleWorkbench/chirp-i2c/src/chirp-i2c-revised.ino"
+#line 86 "/Users/freymann/Dropbox/Electronics/_CODE/ParticleWorkbench/chirp-i2c/src/chirp-i2c-revised.ino"
 #include "I2CSoilMoistureSensor_Particle.h" // Chirp I2C code
 #include "do_DogLcd.h"                      // DOG LCD Display
 #include "SparkFunMAX17043.h"               // MAX17043 Battery gauge
@@ -93,6 +98,9 @@ void loop();
 #include "elapsedMillis.h"                  // Elapsed Timer
 #include "RunningAverage.h"                 // Moving Average
 #include "math.h"                           // For Some Reason...
+// 7.14.20 
+# include "Ubidots.h"
+
 
 // externalize access tokens
 #include "ubidots_tokens.h"
@@ -200,6 +208,9 @@ bool sendLowAlert = FALSE;    // flag to avoid multiple low watervalue texts
 // dmf 3.27.19
 uint8_t chirpAddress = 0;
 uint8_t chirpSoftVersion = 0;
+
+// 7.10.20 Ubidots migration
+Ubidots ubidots(UBIDOTS_TOKEN, UBI_EDUCATIONAL, UBI_TCP); 
 
 // SETUP
 void setup() {
@@ -463,19 +474,30 @@ void loop() {
         Serial.println("in http send A ");
 #endif
 
-        // Send the fractional 'wetness' to Ubidots...
-        request.path = "/api/v1.6/variables/" VAR_WATERVALUE "/values";
-        request.body = "{\"value\":" + String(waterValue) + "}";
-        http.post(request, response, headers);
+        // 7.14.20 at this point we have all the measurements (above).
+        // Previously, measurements were uploaded one at a time (hence the doBnext, etc)
+        // Now, we just upload all to ubidots once enough time has elapsed to 
+        // generate a running average. 
 
-#ifdef DOTEST
-        Serial.println(request.path);
-        Serial.println(request.body);
-        Serial.print("Application>\tResponse status: ");
-        Serial.println(response.status);
-        Serial.print("Application>\tHTTP Response Body: ");
-        Serial.println(response.body);
-#endif
+        // 7.10.20 Send all measurements at the same time
+        ubidots.add(VARIABLE_SOC, stateOfCharge);
+        ubidots.add(VARIABLE_VOLTAGE, cellVoltage);
+        ubidots.add(VARIABLE_TEMPERATURE, howHot);
+        ubidots.add(VARIABLE_WATER_VALUE, waterValue); 
+
+        bool bufferSent = false;
+        bufferSent = ubidots.send(UBIDOTS_DEVICE); 
+
+        if (bufferSent) {
+           Serial.println("Values sent by the device");
+        }
+
+
+        // Send the fractional 'wetness' to Ubidots...
+//        request.path = "/api/v1.6/variables/" VAR_WATERVALUE "/values";
+//        request.body = "{\"value\":" + String(waterValue) + "}";
+//        http.post(request, response, headers);
+
 
         // dmf 7.17.18
         if (waterValue < 20.0 && sendLowAlert) {  // exploit previously configured Twilio webhook
@@ -500,18 +522,10 @@ void loop() {
 #endif
 
         // Send the sensor temperature to Ubidots...
-        request.path = "/api/v1.6/variables/" VAR_TEMPVALUE "/values";
-        request.body = "{\"value\":" + String(howHot) + "}";
-        http.post(request, response, headers);
+//        request.path = "/api/v1.6/variables/" VAR_TEMPVALUE "/values";
+//        request.body = "{\"value\":" + String(howHot) + "}";
+//        http.post(request, response, headers);
 
-#ifdef DOTEST
-        Serial.println(request.path);
-        Serial.println(request.body);
-        Serial.print("Application>\tResponse status: ");
-        Serial.println(response.status);
-        Serial.print("Application>\tHTTP Response Body: ");
-        Serial.println(response.body);
-#endif
 
         // reset timeElapsed
         timeElapsed = 0;
@@ -525,18 +539,9 @@ void loop() {
 #endif
 
         // Send the battery voltage to Ubidots...
-        request.path = "/api/v1.6/variables/" VAR_VOLTAGE "/values";
-        request.body = "{\"value\":" + String(cellVoltage) + "}";
-        http.post(request, response, headers);
-
-#ifdef DOTEST
-        Serial.println(request.path);
-        Serial.println(request.body);
-        Serial.print("Application>\tResponse status: ");
-        Serial.println(response.status);
-        Serial.print("Application>\tHTTP Response Body: ");
-        Serial.println(response.body);
-#endif
+//        request.path = "/api/v1.6/variables/" VAR_VOLTAGE "/values";
+//        request.body = "{\"value\":" + String(cellVoltage) + "}";
+//        http.post(request, response, headers);
 
         // reset timeElapsed
         timeElapsed = 0;
@@ -550,18 +555,9 @@ void loop() {
 #endif
 
         // Send the battery state of charge to Ubidots...
-        request.path = "/api/v1.6/variables/" VAR_BATTSOC "/values";
-        request.body = "{\"value\":" + String(stateOfCharge) + "}";
-        http.post(request, response, headers);
-
-#ifdef DOTEST
-        Serial.println(request.path);
-        Serial.println(request.body);
-        Serial.print("Application>\tResponse status: ");
-        Serial.println(response.status);
-        Serial.print("Application>\tHTTP Response Body: ");
-        Serial.println(response.body);
-#endif
+//        request.path = "/api/v1.6/variables/" VAR_BATTSOC "/values";
+//        request.body = "{\"value\":" + String(stateOfCharge) + "}";
+//        http.post(request, response, headers);
 
         // reset timeElapsed
         timeElapsed = 0;
